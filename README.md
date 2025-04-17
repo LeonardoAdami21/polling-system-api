@@ -84,6 +84,13 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 
 Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
 
+### Sobre o desafio
+
+<aside>
+💡 Você deve desenvolver um sistema de enquetes em tempo real, permitindo que os usuários criem enquetes com perguntas de múltipla escolha.
+
+</aside>
+
 ### Requisitos funcionais
 
 - [ ]  Deve ser possível criar uma enquete
@@ -105,3 +112,11 @@ Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
 - [ ]  Deve ser utilizado um banco [PostgreSQL](https://www.postgresql.org/) criado com [Docker](https://www.docker.com/)
 - [ ]  Deve ser utilizado [Zod](https://zod.dev) para validações
 - [ ]  Deve ser utilizado [Swagger](https://swagger.io/) para gerar documentação
+
+### Regras de negócio
+
+- A enquete deve ter um título
+- A enquete deve ter uma data de início
+- A enquete deve ter uma data de término
+- A enquete pode ter o status `não iniciado/iniciado/em andamento/finalizado`
+- A enquete deve ter no mínimo 3 opções
