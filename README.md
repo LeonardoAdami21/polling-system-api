@@ -83,3 +83,25 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+
+### Requisitos funcionais
+
+- [ ]  Deve ser possível criar uma enquete
+- [ ]  Deve ser possível editar uma enquete
+- [ ]  Deve ser possível excluir uma enquete
+- [ ]  Deve ser possível listar todas as enquetes
+- [ ]  Deve ser possível listar as enquetes por status
+- [ ]  Deve ser possível adicionar quantas opções quiser na enquete
+- [ ]  Deve ser atualizado o número de votos sem precisar atualizar a página (realtime)
+
+---
+
+### Requisitos não funcionais
+
+- [ ]  Deve ser utilizado [Node.js](https://nodejs.org/en)
+- [ ]  Deve ser utilizado [Typescript](https://www.typescriptlang.org)
+- [ ]  Deve ser utilizado [Express](https://expressjs.com/pt-br/)
+- [ ]  Deve ser utilizado [Prisma](https://www.prisma.io/)
+- [ ]  Deve ser utilizado um banco [PostgreSQL](https://www.postgresql.org/) criado com [Docker](https://www.docker.com/)
+- [ ]  Deve ser utilizado [Zod](https://zod.dev) para validações
+- [ ]  Deve ser utilizado [Swagger](https://swagger.io/) para gerar documentação
