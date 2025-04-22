@@ -20,7 +20,7 @@ export class VoteRepository {
     private readonly pollService: PollsService,
   ) {}
 
-  async create(dto: VoteDto, pollId: string, voterIp: string) {
+  async create(dto: VoteDto, pollId: string, voterIp?: string) {
     try {
       const poll = await this.pollService.findOne(pollId);
       if (!poll) {
@@ -40,7 +40,7 @@ export class VoteRepository {
     }
   }
 
-  async update(dto: VoteDto, pollId: string, voterIp: string) {
+  async update(dto: VoteDto, pollId: string, voterIp?: string) {
     try {
       const poll = await this.pollService.findOne(pollId);
       if (!poll) {

@@ -49,6 +49,7 @@ export class PollRepository {
       const polls = await this.pollRepository.findMany({
         include: {
           options: true,
+          votes: true
         },
       });
 
@@ -101,7 +102,7 @@ export class PollRepository {
     }
   }
 
-  async votePoll(pollId: string, dto: VoteDto, voterIp: string) {
+  async votePoll(pollId: string, dto: VoteDto, voterIp?: string) {
     try {
       const { optionId } = dto;
       const poll = await this.pollRepository.findUnique({
@@ -124,7 +125,8 @@ export class PollRepository {
         );
       }
 
-      await this.voteRepository.create(dto, pollId, voterIp);
+      const vote = await this.voteRepository.create(dto, pollId, voterIp);
+      return vote;
     } catch (error) {
       if (error.code === 'P2002') {
         await this.voteRepository.update(dto, pollId, voterIp);
