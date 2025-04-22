@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Req } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiCreatedResponse,
@@ -12,6 +12,7 @@ import {
 import { PollsService } from './polls.service';
 import { CreatePollDto } from './dto/create-poll.dto';
 import { VoteDto } from './dto/create-vote.dto';
+import { Request } from 'express';
 
 @Controller('polls')
 @ApiTags('Polls')
@@ -31,20 +32,30 @@ export class PollsController {
 
   @ApiOperation({ summary: 'Vote on a poll' })
   @ApiCreatedResponse({
-    description: 'The poll has been successfully created.',
+    description: 'The vote has been successfully submitted on a poll.',
   })
   @ApiNotFoundResponse({ description: 'Poll not found' })
   @ApiBadRequestResponse({ description: 'Invalid poll data' })
-  @ApiInternalServerErrorResponse({ description: 'Error creating poll' })
+  @ApiInternalServerErrorResponse({ description: 'Internal server error' })
   @ApiParam({ name: 'id', type: String })
-  @ApiParam({ name: 'voterIp', type: String })
-  @Post(':id/vote/:voterIp')
+  @Post(':id/vote')
   async votePoll(
     @Param('id') pollId: string,
     @Body() dto: VoteDto,
-    @Param('voterIp') voterIp: string,
+    @Req() request: Request,
   ) {
+    const voterIp = request.ip || 'unknown';
     return this.pollsService.votePoll(pollId, dto, voterIp);
+  }
+
+  @ApiOperation({ summary: 'Get poll results' })
+  @ApiOkResponse({ description: 'Returns poll results' })
+  @ApiNotFoundResponse({ description: 'Poll not found' })
+  @ApiInternalServerErrorResponse({ description: 'Internal server error' })
+  @ApiParam({ name: 'id', type: String })
+  @Get(':id/results')
+  getPollResults(@Param('id') id: string) {
+    return this.pollsService.getPollResults(id);
   }
 
   @ApiOperation({ summary: 'Get all polls' })
@@ -60,7 +71,7 @@ export class PollsController {
   @ApiOkResponse({ description: 'The poll has been successfully created.' })
   @ApiNotFoundResponse({ description: 'Poll not found' })
   @ApiInternalServerErrorResponse({ description: 'Error creating poll' })
-  async findOne(id: string) {
+  async findOne(@Param('id') id: string) {
     return this.pollsService.findOne(id);
   }
 }
