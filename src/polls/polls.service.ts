@@ -41,7 +41,7 @@ export class PollsService {
     }
   }
 
-  async votePoll(pollId: string, dto: any, voterIp: string) {
+  async votePoll(pollId: string, dto: any, voterIp?: string) {
     try {
       const poll = await this.pollRepository.findOne(pollId);
       if (!poll) {
