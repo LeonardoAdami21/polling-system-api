@@ -14,7 +14,7 @@ import { CreatePollDto } from './dto/create-poll.dto';
 import { VoteDto } from './dto/create-vote.dto';
 import { Request } from 'express';
 
-@Controller('polls')
+@Controller('v2/polls')
 @ApiTags('Polls')
 export class PollsController {
   constructor(private readonly pollsService: PollsService) {}

@@ -54,19 +54,14 @@ export class PollsService {
 
   async votePoll(pollId: string, dto: VoteDto, voterIp?: string) {
     try {
-      
       const poll = await this.pollRepository.findOne(pollId);
       if (!poll) {
         throw new NotFoundException('Poll not found');
       }
-      const vote = await this.pollRepository.votePoll(
-        pollId,
-        dto,
-        voterIp,
-      );
+      const vote = await this.pollRepository.votePoll(pollId, dto, voterIp);
       return vote;
     } catch (error) {
-      throw new InternalServerErrorException(error);
+      throw new InternalServerErrorException('Error voting' + error);
     }
   }
 

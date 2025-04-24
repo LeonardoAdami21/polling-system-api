@@ -102,6 +102,7 @@ export class PollRepository {
               },
             },
           },
+          votes: true,
         },
       });
       if (!poll) {
@@ -122,7 +123,7 @@ export class PollRepository {
         description: poll.description,
         createdAt: poll.createdAt,
         options: formattedOptions,
-        totalVotes,
+        totalVotes
       };
     } catch (error) {
       throw new InternalServerErrorException('Error finding poll' + error);
