@@ -37,10 +37,10 @@ export class PollsController {
   @ApiNotFoundResponse({ description: 'Poll not found' })
   @ApiBadRequestResponse({ description: 'Invalid poll data' })
   @ApiInternalServerErrorResponse({ description: 'Internal server error' })
-  @ApiParam({ name: 'id', type: String })
-  @Post(':id/vote')
+  @ApiParam({ name: 'pollId', type: String })
+  @Post(':pollId/vote')
   async votePoll(
-    @Param('id') pollId: string,
+    @Param('pollId') pollId: string,
     @Body() dto: VoteDto,
     @Req() request: Request,
   ) {
@@ -52,10 +52,10 @@ export class PollsController {
   @ApiOkResponse({ description: 'Returns poll results' })
   @ApiNotFoundResponse({ description: 'Poll not found' })
   @ApiInternalServerErrorResponse({ description: 'Internal server error' })
-  @ApiParam({ name: 'id', type: String })
-  @Get(':id/results')
-  getPollResults(@Param('id') id: string) {
-    return this.pollsService.getPollResults(id);
+  @ApiParam({ name: 'pollId', type: String })
+  @Get(':pollId/results')
+  getPollResults(@Param('pollId') pollId: string) {
+    return this.pollsService.getPollResults(pollId);
   }
 
   @ApiOperation({ summary: 'Get all polls' })
@@ -66,12 +66,12 @@ export class PollsController {
     return this.pollsService.findAll();
   }
 
-  @Get(':id')
+  @Get(':pollId')
   @ApiOperation({ summary: 'Get a poll by id' })
   @ApiOkResponse({ description: 'The poll has been successfully created.' })
   @ApiNotFoundResponse({ description: 'Poll not found' })
   @ApiInternalServerErrorResponse({ description: 'Error creating poll' })
-  async findOne(@Param('id') id: string) {
-    return this.pollsService.findOne(id);
+  async findOne(@Param('pollId') pollId: string) {
+    return this.pollsService.findOne(pollId);
   }
 }

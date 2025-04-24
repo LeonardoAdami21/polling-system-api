@@ -28,9 +28,9 @@ export class VoteRepository {
       }
       const vote = await this.voteRepository.create({
         data: {
-          pollId,
           optionId: dto.optionId,
-          voterIp,
+          pollId,
+          voterIp: voterIp,
         },
       });
 

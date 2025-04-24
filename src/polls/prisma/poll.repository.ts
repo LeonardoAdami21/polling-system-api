@@ -49,7 +49,7 @@ export class PollRepository {
       const polls = await this.pollRepository.findMany({
         include: {
           options: true,
-          votes: true
+          votes: true,
         },
       });
 
@@ -59,11 +59,38 @@ export class PollRepository {
     }
   }
 
-  async findOne(id: string) {
+  async findById(id: string) {
     try {
       const poll = await this.pollRepository.findUnique({
         where: {
-          id,
+          id: id,
+        },
+        include: {
+          options: {
+            include: {
+              _count: {
+                select: {
+                  votes: true,
+                },
+              },
+            },
+          },
+        },
+      });
+      if (!poll) {
+        throw new NotFoundException('Poll not found');
+      }
+      return poll;
+    } catch (error) {
+      throw new InternalServerErrorException('Error finding poll' + error);
+    }
+  }
+
+  async findOne(pollId: string) {
+    try {
+      const poll = await this.pollRepository.findUnique({
+        where: {
+          id: pollId,
         },
         include: {
           options: {
@@ -104,7 +131,6 @@ export class PollRepository {
 
   async votePoll(pollId: string, dto: VoteDto, voterIp?: string) {
     try {
-      const { optionId } = dto;
       const poll = await this.pollRepository.findUnique({
         where: {
           id: pollId,
@@ -116,12 +142,13 @@ export class PollRepository {
       if (!poll) {
         throw new NotFoundException('Poll not found with id: ' + pollId);
       }
+
       const optionExists = poll.options.some(
-        (option) => option.id === optionId,
+        (option) => option.id === dto.optionId,
       );
       if (!optionExists) {
         throw new NotFoundException(
-          `Option with ID ${optionId} not found in this poll`,
+          'Option not found with id: ' + dto.optionId,
         );
       }
 
