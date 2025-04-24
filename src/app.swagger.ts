@@ -14,6 +14,7 @@ export const initSwagger = (app: INestApplication) => {
     .setLicense('MIT', 'https://opensource.org/license/mit/')
     .setDescription('API REST de Gerenciamento de Tarefas')
     .build();
+    
 
   const document = SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup('/v2/docs', app, document, {
