@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   forwardRef,
   Inject,
   Injectable,
@@ -26,14 +27,29 @@ export class VoteRepository {
       if (!poll) {
         throw new NotFoundException('Poll not found');
       }
-      const vote = await this.voteRepository.create({
-        data: {
-          pollId,
-          optionId: dto.optionId,
-          voterIp,
+      const existingVote = await this.voteRepository.findUnique({
+        where: {
+          pollId_voterIp: {
+            pollId,
+            voterIp,
+          },
         },
       });
 
+      if (existingVote) {
+        throw new BadRequestException('User has already voted');
+      }
+      const vote = await this.voteRepository.create({
+        data: {
+          optionId: dto.optionId,
+          pollId,
+          voterIp: voterIp,
+        },
+        include: {
+          option: true,
+          poll: true,
+        },
+      });
       return vote;
     } catch (error) {
       throw new InternalServerErrorException('Error creating vote' + error);
